@@ -20,11 +20,23 @@ async function registerUser(username: string) {
     console.log('registration', registration)
 
     // Send the registration to the server
-    const registerResponse = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(registration),
-    })
+    let registerResponse;
+    try {
+        registerResponse = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(registration),
+            // body: JSON.stringify({
+            //     registration: registration,
+            //     challenge: challenge,
+            // }),
+        })
+    } catch (error) {
+        console.error('Error while sending the registration to the server', error);
+        return;
+    }
+
+    console.log('registerResponse', registerResponse)
 
     const { success } = await registerResponse.json()
     console.log('success', success)
