@@ -2,6 +2,8 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import PasskeyButton from "../app/passwordless/PasskeyButton";
+
 
 const ACTIVE_ROUTE = "py-1 px-2 rounded-md bg-gray-200 text-gray-900";
 const INACTIVE_ROUTE = "py-1 px-2 text-gray-500 hover:bg-gray-200";
@@ -56,6 +58,7 @@ export default function NavMenu() {
                         API from Server
                     </li>
                 </Link>
+                <PasskeyButton />
             </ul>
 
         </div>
