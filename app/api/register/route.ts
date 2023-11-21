@@ -12,9 +12,7 @@ export async function POST(req: Request, res: Response) {
             origin: API_URL,
         };
 
-        console.log("expected", expected);
         const registrationParsed = await server.verifyRegistration(registration, expected);
-        console.log("registrationParsed", registrationParsed);
 
         return Response.json({ success: true }, { status: 200 });
     } catch (error) {
