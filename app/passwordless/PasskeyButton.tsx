@@ -17,26 +17,21 @@ async function registerUser(username: string) {
         userHandle: window.crypto.getRandomValues(new Uint8Array(16)).toString(),
         debug: false,
     })
-    console.log('registration', registration)
 
-    // Send the registration to the server
     let registerResponse;
     try {
         registerResponse = await fetch('/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(registration),
-            // body: JSON.stringify({
-            //     registration: registration,
-            //     challenge: challenge,
-            // }),
+            body: JSON.stringify({
+                registration: registration,
+                challenge: challenge,
+            }),
         })
     } catch (error) {
         console.error('Error while sending the registration to the server', error);
         return;
     }
-
-    console.log('registerResponse', registerResponse)
 
     const { success } = await registerResponse.json()
     console.log('success', success)
