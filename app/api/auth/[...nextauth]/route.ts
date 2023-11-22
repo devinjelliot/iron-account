@@ -2,6 +2,7 @@
 
 import NextAuth, { NextAuthOptions } from "next-auth";
 //import { authOptions } from "../auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
@@ -10,7 +11,12 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GITHUB_ID ?? "",
             clientSecret: process.env.GITHUB_SECRET ?? "",
         }),
-        //WebauthnProvider,
+        CredentialsProvider({
+            id: "webauthn",
+            name: "Webauthn",
+            async authorize(credentials, req) {
+                const user = await prisma.user.findUnique({
+                    where: { 
     ],
 };
 

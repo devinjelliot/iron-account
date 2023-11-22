@@ -1,21 +1,19 @@
-// import prisma from '@/prisma/prisma';
-// import { server } from '@passwordless-id/webauthn';
 
-// const WebauthnProvider = {
-//   id: 'webauthn',
-//   name: 'Webauthn',
-//   type: 'credentials',
-//   credentials: {
-    
-//   },
-//   authorize: async (credentials: {}, req: Request) => {
-//     const user = await verifyUserWithWebauthn(req);
-//     if (user) {
-//       return Promise.resolve(user);
-//     }
-//     return Promise.resolve(null);
-//   },
-// };
+const WebauthnProvider = {
+    id: 'webauthn',
+    name: 'Webauthn',
+    type: 'credentials',
+    credentials: {
+
+    },
+    authorize: async (credentials: {}, req: Request) => {
+        const user = await verifyUserWithWebauthn(req);
+        if (user) {
+            return Promise.resolve(user);
+        }
+        return Promise.resolve(null);
+    },
+};
 
 // async function verifyUserWithWebauthn(req: Request) {
 //   try {

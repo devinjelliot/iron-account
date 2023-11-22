@@ -1,10 +1,12 @@
 // pages/api/register.js
 import { API_URL } from '@/constants/nextauth';
+import { createInitialSession } from '@/utils/createInitialSession';
 import saveCredential from '@/utils/saveCredentialWebauthn';
 import { server } from '@passwordless-id/webauthn';
 
 export async function POST(req: Request, res: Response) {
     try {
+        await createInitialSession();
 
         const { registration, challenge } = await req.json();
 
