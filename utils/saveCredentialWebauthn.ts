@@ -7,15 +7,19 @@ type CredentialData = {
 };
 
 // Function to save the credential for a user
-async function saveCredential(userId: number, credentialData: CredentialData) {
+async function saveCredential(credentialData: CredentialData) {
   try {
-    // Use the Prisma client to create a new Credential record
+
+    const user = await prisma.user.create({
+      data: {}
+    });
+
     const credential = await prisma.credential.create({
       data: {
         credentialID: credentialData.id,
         publicKey: credentialData.publicKey,
         algorithm: credentialData.algorithm,
-        user: { connect: { id: userId } },
+        user: { connect: { id: user.id } }
       },
     });
 

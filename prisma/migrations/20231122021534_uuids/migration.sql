@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" UUID NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -11,7 +11,7 @@ CREATE TABLE "Credential" (
     "credentialID" TEXT NOT NULL,
     "publicKey" TEXT NOT NULL,
     "algorithm" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "user_id" UUID NOT NULL,
 
     CONSTRAINT "Credential_pkey" PRIMARY KEY ("id")
 );
@@ -20,4 +20,4 @@ CREATE TABLE "Credential" (
 CREATE UNIQUE INDEX "Credential_credentialID_key" ON "Credential"("credentialID");
 
 -- AddForeignKey
-ALTER TABLE "Credential" ADD CONSTRAINT "Credential_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Credential" ADD CONSTRAINT "Credential_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
