@@ -1,4 +1,6 @@
 import prisma from '@/prisma/prisma'; // Ensure this path is correct for your project
+import { v4 as uuidv4 } from 'uuid';
+
 
 type CredentialData = {
   id: string;
@@ -10,8 +12,11 @@ type CredentialData = {
 async function saveCredential(credentialData: CredentialData) {
   try {
 
+    const userId = uuidv4();
     const user = await prisma.user.create({
-      data: {}
+      data: {
+        id: userId,
+      },
     });
 
     const credential = await prisma.credential.create({

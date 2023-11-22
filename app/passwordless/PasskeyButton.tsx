@@ -1,4 +1,3 @@
-import { storeData } from '@/utils/localStorage';
 import { client } from '@passwordless-id/webauthn';
 
 async function registerUser(username: string) {
@@ -35,7 +34,6 @@ async function registerUser(username: string) {
 
     const { success } = await registerResponse.json()
     console.log('success', success)
-    storeData('credential', success.credential)
 
     if (success) {
         // Registration was successful 
