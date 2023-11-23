@@ -1,23 +1,40 @@
 // /[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions } from "next-auth";
-//import { authOptions } from "../auth";
 //import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 
 export const authOptions: NextAuthOptions = {
-    providers: [
-        GitHubProvider({
-            clientId: process.env.GITHUB_ID ?? "",
-            clientSecret: process.env.GITHUB_SECRET ?? "",
-        }),
-        // CredentialsProvider({
-        //     id: "webauthn",
-        //     name: "Webauthn",
-        //     async authorize(credentials, req) {
-        //         const user = await prisma.user.findUnique({
-        //             where: { 
-    ],
+  providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+    // CredentialsProvider({
+    //     id: "webauthn",
+    //     name: "Webauthn",
+    //     async authorize(credentials, req) {
+    //         const user = await prisma.user.findUnique({
+    //             where: { 
+
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      // If user object is available, it means this is the initial login
+      if (user) {
+        token.id = user.id; // Assuming `user.id` is the UUID
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      // Add the UUID to the session object
+      session.user.id = token.id ? token.id.toString() : "";
+      console.log("session", session);
+      return session;
+    },
+  },
 };
+
 
 export const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST };

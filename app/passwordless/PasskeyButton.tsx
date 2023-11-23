@@ -1,4 +1,5 @@
 import { client } from '@passwordless-id/webauthn';
+import { signIn } from 'next-auth/react';
 
 async function registerUser(username: string) {
     const response = await fetch('/api/getChallenge');
@@ -32,17 +33,24 @@ async function registerUser(username: string) {
         return;
     }
 
-    const { success } = await registerResponse.json()
-    console.log('success', success)
+    const registrationResult = await registerResponse.json();
+    console.log('Registration result', registrationResult);
 
-    if (success) {
+    if (registrationResult.success) {
         // Registration was successful 
-        console.log('Registration was successful', success)
+        console.log('Registration was successful', registrationResult.success);
 
-    }
-    else {
+        // Use the userId from the server response
+        const userId = registrationResult.userId;
+        console.log('userId client route', userId)
+
+        // Now call signIn with the obtained userId
+        signIn('credentials', { userId, redirect: false });
+        console.log('signIn', signIn)
+
+    } else {
         // Registration failed
-        console.error('Registration failed')
+        console.error('Registration failed');
     }
 }
 

@@ -17,15 +17,20 @@ export async function POST(req: Request, res: Response) {
 
         const registrationParsed = await server.verifyRegistration(registration, expected);
         console.log('Registration parsed:', registrationParsed);
-        saveCredential(registrationParsed.credential)
-            .then((credential) => {
-                console.log('Credential saved:', credential);
-            })
-            .catch((error) => {
-                console.error('Failed to save credential:', error);
-            });
 
-        return Response.json({ success: true }, { status: 200 });
+        const { userId } = await saveCredential(registrationParsed.credential);
+        console.log('userId register route', userId);
+
+
+        // saveCredential(registrationParsed.credential)
+        //     .then((credential) => {
+        //         console.log('Credential saved:', credential);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Failed to save credential:', error);
+        //     });
+
+        return Response.json({ success: true, userId: userId }, { status: 200 });
     } catch (error) {
         console.error('Registration verification error:', error);
         return Response.json({ success: false }, { status: 500 });

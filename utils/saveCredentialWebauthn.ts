@@ -13,6 +13,7 @@ async function saveCredential(credentialData: CredentialData) {
   try {
 
     const userId = uuidv4();
+    console.log('userId uuid', userId);
     const user = await prisma.user.create({
       data: {
         id: userId,
@@ -28,7 +29,8 @@ async function saveCredential(credentialData: CredentialData) {
       },
     });
 
-    return credential;
+
+    return { credential, userId };
   } catch (error) {
     console.error('Failed to save credential:', error);
     // Handle errors as appropriate for your application
