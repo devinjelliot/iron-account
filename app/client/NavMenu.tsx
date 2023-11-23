@@ -2,7 +2,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import PasskeyButton from "../app/passwordless/PasskeyButton";
+import PasskeyButton from "../passwordless/PasskeyButton";
 
 
 const ACTIVE_ROUTE = "py-1 px-2 rounded-md bg-gray-200 text-gray-900";
@@ -13,7 +13,7 @@ function AuthButton() {
     if (session) {
         return (
             <>
-                {session?.user?.name} <br />
+                {session?.user?.id} <br />
                 <button onClick={() => signOut()}>Sign out</button>
             </>
         );
@@ -59,6 +59,12 @@ export default function NavMenu() {
                     </li>
                 </Link>
                 <PasskeyButton />
+                <Link href="/authorize">
+                    <li className={pathname === "/apiFromServer" ? ACTIVE_ROUTE : INACTIVE_ROUTE}>
+                        Sign In
+                    </li>
+                </Link>
+
             </ul>
 
         </div>

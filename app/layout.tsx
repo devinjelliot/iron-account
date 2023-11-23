@@ -1,4 +1,4 @@
-import NavMenu from '@/utils/NavMenu'
+import NavMenu from '@/app/client/NavMenu'
 import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { Inter } from 'next/font/google'
