@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "Algorithm" AS ENUM ('ES256', 'RS256');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL,
@@ -8,9 +11,10 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Credential" (
     "id" SERIAL NOT NULL,
+    "counter" INTEGER NOT NULL,
     "credentialID" TEXT NOT NULL,
     "publicKey" TEXT NOT NULL,
-    "algorithm" TEXT NOT NULL,
+    "algorithm" "Algorithm" NOT NULL,
     "user_id" UUID NOT NULL,
 
     CONSTRAINT "Credential_pkey" PRIMARY KEY ("id")

@@ -1,7 +1,7 @@
 // pages/api/register.js
+import storeCredential from '@/app/passwordless/storeCredential';
 import { API_URL } from '@/constants/nextauth';
 import { createInitialSession } from '@/utils/createInitialSession';
-import saveCredential from '@/utils/saveCredentialWebauthn';
 import { server } from '@passwordless-id/webauthn';
 
 export async function POST(req: Request, res: Response) {
@@ -18,17 +18,8 @@ export async function POST(req: Request, res: Response) {
         const registrationParsed = await server.verifyRegistration(registration, expected);
         console.log('Registration parsed:', registrationParsed);
 
-        const { userId } = await saveCredential(registrationParsed.credential);
+        const { userId } = await storeCredential(registrationParsed.credential);
         console.log('userId register route', userId);
-
-
-        // saveCredential(registrationParsed.credential)
-        //     .then((credential) => {
-        //         console.log('Credential saved:', credential);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Failed to save credential:', error);
-        //     });
 
         return Response.json({ success: true, userId: userId }, { status: 200 });
     } catch (error) {

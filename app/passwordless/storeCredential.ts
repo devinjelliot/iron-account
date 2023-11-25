@@ -5,11 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 type CredentialData = {
   id: string;
   publicKey: string;
-  algorithm: string;
+  algorithm: "ES256" | "RS256";
 };
 
 // Function to save the credential for a user
-async function saveCredential(credentialData: CredentialData) {
+async function storeCredential(credentialData: CredentialData, initialCounter = 1) {
   try {
 
     const userId = uuidv4();
@@ -25,6 +25,7 @@ async function saveCredential(credentialData: CredentialData) {
         credentialID: credentialData.id,
         publicKey: credentialData.publicKey,
         algorithm: credentialData.algorithm,
+        counter: initialCounter,
         user: { connect: { id: user.id } }
       },
     });
@@ -38,4 +39,4 @@ async function saveCredential(credentialData: CredentialData) {
   }
 }
 
-export default saveCredential;
+export default storeCredential;

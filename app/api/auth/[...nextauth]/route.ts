@@ -29,18 +29,6 @@ export const authOptions: NextAuthOptions = {
 
         return user;
 
-
-        // const user = await prisma.user.findUnique({
-        //   where: {
-        //     id: credentials.id,
-        //   },
-        // });
-
-        // if (user) {
-        //   return user;
-        // } else {
-        //   return null;
-        // }
       },
     }),
 
@@ -66,3 +54,17 @@ export const authOptions: NextAuthOptions = {
 
 export const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST };
+
+
+
+// const user = await prisma.user.findUnique({
+//   where: {
+//     id: credentials.id,
+//   },
+// });
+
+// if (user) {
+//   return user;
+// } else {
+//   return null;
+// }
