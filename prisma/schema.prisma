@@ -23,7 +23,7 @@ model User {
 
 model Credential {
   id           Int       @id @default(autoincrement())
-  counter      Int
+  counter      Int?
   credentialID String    @unique
   publicKey    String
   algorithm    Algorithm

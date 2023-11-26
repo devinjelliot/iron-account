@@ -6,39 +6,35 @@ import { server as WebauthnServer } from "@passwordless-id/webauthn";
 export async function POST(req: Request, res: Response) {
     try {
         const { credentials, challenge } = await req.json();
-        console.log('credentials', credentials);
+        //console.log('credentials', credentials);
 
         const credentialId = credentials.credentialId as string;
-        console.log('credetialId', credentialId);
+        //console.log('credentialId', credentialId);
 
         const storedCredentials = await prisma.credential.findUnique({
             where: { credentialID: credentialId },
             include: { user: true },
-
         });
-        console.log('storedCredentials', storedCredentials);
+        //console.log('storedCredentials', storedCredentials);
 
         if (!storedCredentials) {
             return Response.json({ success: false }, { status: 401 });
         }
 
-
         let algorithm: "RS256" | "ES256";
-
         if (storedCredentials.algorithm === "RS256" || storedCredentials.algorithm === "ES256") {
             algorithm = storedCredentials.algorithm;
         } else {
-            // Handle the case where the algorithm is not one of the expected types
             return Response.json({ success: false }, { status: 500 });
         }
-        console.log('algorithm', algorithm);
+        //console.log('algorithm', algorithm);
 
         const credentialKey = {
             id: storedCredentials.credentialID,
             publicKey: storedCredentials.publicKey,
             algorithm: algorithm,
-        }
-        console.log('credentialKey', credentialKey);
+        };
+        //console.log('credentialKey', credentialKey);
 
         const expected = {
             challenge: challenge,
@@ -46,26 +42,26 @@ export async function POST(req: Request, res: Response) {
             userVerified: true,
             counter: storedCredentials.counter,
         };
-        console.log('expected', expected);
+        console.log('storedCredentials counter', storedCredentials.counter);
+        console.log('expected counter', expected.counter);
 
         const verification = await WebauthnServer.verifyAuthentication(credentials, credentialKey, expected);
         console.log('Verification result:', verification);
 
-        const isFirstAuthentication = storedCredentials.counter === 0;
+        const authCountValid = authCounter(storedCredentials.counter, verification.authenticator.counter);
+        console.log('storedCredentials.counter', storedCredentials.counter);
+        console.log('verification.authenticator.counter', verification.authenticator.counter);
+        console.log('authCountValid', authCountValid);
 
-        const authCount = authCounter(storedCredentials.counter, verification.authenticator.counter, isFirstAuthentication);
-
-        if (verification && authCount) {
+        if (authCountValid) {
             // Update the counter in the database
             await prisma.credential.update({
-                where: { credentialID: credentials.credentialId },
+                where: { credentialID: credentialId },
                 data: { counter: verification.authenticator.counter },
             });
 
             const user = await prisma.user.findUnique({
-                where: {
-                    id: storedCredentials.user.id,
-                },
+                where: { id: storedCredentials.userId },
             });
 
             return Response.json({ success: true, user: user }, { status: 200 });
@@ -74,7 +70,6 @@ export async function POST(req: Request, res: Response) {
         }
 
     } catch (error) {
-
         console.error('Assertion verification error:', error);
         return Response.json({ success: false }, { status: 500 });
     }
