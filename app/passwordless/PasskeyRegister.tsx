@@ -2,7 +2,7 @@ import { registerUser } from '@/app/passwordless/registerUser';
 
 export default function PasskeyButton() {
     return (
-        <button onClick={() => registerUser('Greg Lyons')}>Register</button>
+        <button onClick={() => registerUser('Ghengis Kahn')}>Register</button>
 
     )
 

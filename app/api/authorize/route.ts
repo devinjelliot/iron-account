@@ -1,4 +1,3 @@
-import { authCounter } from "@/app/passwordless/authCounter";
 import { API_URL } from "@/constants/nextauth";
 import prisma from "@/prisma/prisma";
 import { server as WebauthnServer } from "@passwordless-id/webauthn";
@@ -36,25 +35,27 @@ export async function POST(req: Request, res: Response) {
         };
         //console.log('credentialKey', credentialKey);
 
+        const storedCounter = storedCredentials.counter;
+        console.log('storedCounter', storedCounter);
+
         const expected = {
             challenge: challenge,
             origin: API_URL,
             userVerified: true,
-            counter: storedCredentials.counter,
+            counter: 1,
         };
-        console.log('storedCredentials counter', storedCredentials.counter);
-        console.log('expected counter', expected.counter);
+        //console.log('expected', expected);
 
         const verification = await WebauthnServer.verifyAuthentication(credentials, credentialKey, expected);
         console.log('Verification result:', verification);
 
-        const authCountValid = authCounter(storedCredentials.counter, verification.authenticator.counter);
-        console.log('storedCredentials.counter', storedCredentials.counter);
-        console.log('verification.authenticator.counter', verification.authenticator.counter);
-        console.log('authCountValid', authCountValid);
+        // The authenticator needs to return a counter that is greater than the stored counter before we can authenticate the user && update the stored counter
+        // const authCountValid = authCounter(storedCounter, verification.authenticator.counter);
+        // console.log('authCountValid', authCountValid);
+        // console.log('verification.authenticator.counter', verification.authenticator.counter);
 
-        if (authCountValid) {
-            // Update the counter in the database
+        if (verification) {
+
             await prisma.credential.update({
                 where: { credentialID: credentialId },
                 data: { counter: verification.authenticator.counter },
