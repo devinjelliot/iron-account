@@ -9,7 +9,7 @@ type CredentialData = {
 };
 
 // Function to save the credential for a user
-async function storeCredential(credentialData: CredentialData, initialCounter = -1) {
+async function storeCredential(credentialData: CredentialData) {
   try {
 
     const userId = uuidv4();
@@ -25,7 +25,7 @@ async function storeCredential(credentialData: CredentialData, initialCounter = 
         credentialID: credentialData.id,
         publicKey: credentialData.publicKey,
         algorithm: credentialData.algorithm,
-        counter: initialCounter,
+        //counter: initialCounter,
         user: { connect: { id: user.id } }
       },
     });

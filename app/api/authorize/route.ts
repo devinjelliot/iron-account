@@ -35,14 +35,14 @@ export async function POST(req: Request, res: Response) {
         };
         //console.log('credentialKey', credentialKey);
 
-        const storedCounter = storedCredentials.counter;
-        console.log('storedCounter', storedCounter);
+        //const storedCounter = storedCredentials.counter;
+        // console.log('storedCounter', storedCounter);
 
         const expected = {
             challenge: challenge,
             origin: API_URL,
             userVerified: true,
-            counter: 1,
+            //counter: 1,
         };
         //console.log('expected', expected);
 
