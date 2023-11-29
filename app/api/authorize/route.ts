@@ -1,6 +1,6 @@
 import { API_URL } from "@/constants/nextauth";
 import prisma from "@/prisma/prisma";
-import { server as WebauthnServer } from "@passwordless-id/webauthn";
+import { server as WebauthnServer } from "@devinjelliot/webauthn";
 
 export async function POST(req: Request, res: Response) {
     try {

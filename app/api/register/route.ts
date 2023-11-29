@@ -2,7 +2,7 @@
 import storeCredential from '@/app/passwordless/storeCredential';
 import { API_URL } from '@/constants/nextauth';
 import { createInitialSession } from '@/utils/createInitialSession';
-import { server } from '@passwordless-id/webauthn';
+import { server } from '@devinjelliot/webauthn';
 
 export async function POST(req: Request, res: Response) {
     try {

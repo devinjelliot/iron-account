@@ -1,4 +1,4 @@
-import { client } from '@passwordless-id/webauthn';
+import { client } from '@devinjelliot/webauthn';
 import { signIn } from 'next-auth/react';
 
 
