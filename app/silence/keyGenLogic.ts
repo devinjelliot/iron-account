@@ -2,15 +2,15 @@ import {
     P1Keygen,
     P1KeyshareV2,
     P2Keygen,
-    generateSessionId,
+    generatePartyKeys,
 } from "@silencelaboratories/two-party-ecdsa-js";
 import { P2KeyshareV2 } from "@silencelaboratories/two-party-ecdsa-js/dist/types";
 
 export async function performKeygen(): Promise<[P1KeyshareV2, P2KeyshareV2]> {
     console.time("keygen");
-    const sessionId = await generateSessionId();
-    const p1 = await P1Keygen.init(sessionId);
-    const p2 = await P2Keygen.init(sessionId);
+    const keys = await generatePartyKeys();
+    const p1 = await P1Keygen.init(keys);
+    const p2 = await P2Keygen.init();
 
     // Round 1
     const msg1 = await p1.genMsg1();

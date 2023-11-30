@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import PasskeyButton from "../passwordless/PasskeyRegister";
 import { PasskeySignIn } from "../passwordless/PasskeySignIn";
+import KeyGenButton from "../silence/KeyGen";
 
 
 const ACTIVE_ROUTE = "py-1 px-2 rounded-md bg-gray-200 text-gray-900";
@@ -65,9 +66,12 @@ export default function NavMenu() {
                 <div>
                     <PasskeySignIn />
                 </div>
-                {/* <Link href="/authorize">
-                    <li className={pathname === "/apiFromServer" ? ACTIVE_ROUTE : INACTIVE_ROUTE}>
-                        Sign In
+                <div>
+                    <KeyGenButton />
+                </div>
+                {/* <Link href="/keyGenAccount">
+                    <li className={pathname === "/keyGenAccount" ? ACTIVE_ROUTE : INACTIVE_ROUTE}>
+                        Silence KeyGen
                     </li>
                 </Link> */}
 

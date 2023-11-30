@@ -9,7 +9,7 @@ export default function KeyGenComponent() {
     const generateKeys = async () => {
         setLoading(true);
         try {
-            const response = await fetch('/api/silence/keyGen');
+            const response = await fetch('/api/keyGenAccount');
             const data = await response.json();
             setKeyshares(data.keyshares);
         } catch (error) {
@@ -19,11 +19,9 @@ export default function KeyGenComponent() {
     };
 
     return (
-        <div className="grid grid-cols-1 bg-gray-500">
-            <button
-                className='bg-pink-500 p-2 justify-self-center self-center rounded-md'
-                onClick={generateKeys} disabled={loading}>
-                {loading ? 'Generating...' : 'Generate Keyshares'}
+        <div>
+            <button onClick={generateKeys} disabled={loading}>
+                {loading ? 'Generating...' : 'Silence Keygen'}
             </button>
             {keyshares && (
                 <div>
